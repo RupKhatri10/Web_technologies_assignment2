@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -15,12 +14,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    purchaseHistory: {
-        type: Schema.Types.ObjectId,
-        ref: 'Order'
-    },
     shippingAddress: {type: String, required: true},    
 });
+
+userSchema.methods.comparePassword = function(candidatePassword) {
+    // Compare the candidate password with the stored password
+    const isMatch = candidatePassword === this.password;
+    return isMatch;
+};
+
 
 const User = mongoose.model('User', userSchema);
 
